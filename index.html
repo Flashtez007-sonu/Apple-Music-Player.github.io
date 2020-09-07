@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Music App</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">Theher Ja</h2>
+            <h3 id="artist">Armaan Malik</h3>
+            <div class="img_container">
+                <img src="images/image1.jpg" alt="">
+            </div>
+            <audio src="music/music1.mp3"></audio>
+
+            <!-- controls -->
+            <div class="music_controls">
+                <i class="fas fa-backward" id="prev" title="Previous"></i>
+                <i class="fas fa-play main_button" id="play" title="play"></i>
+                <i class="fas fa-forward" id="next" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector('audio');
+        const img = document.querySelector('img');
+        const play = document.getElementById('play');
+        const artist = document.getElementById('artist');
+        const title = document.getElementById('title');
+        const prev = document.getElementById('prev');
+        const next = document.getElementById('next');
+
+        const songs =[
+            {
+                name: "music1",
+                title: "Theher Ja",
+                artist: "Armaan Malik"
+            },
+            {
+                name: "music2",
+                title: "Hasi(Male)",
+                artist: "Ami Mishra"
+            },
+            {
+                name: "music3",
+                title: "Bas Ek Baar",
+                artist: "Soham Naik"
+            }
+        ];
+
+
+        let isplaying = false;
+        const playMusic = () => {
+            isplaying = true;
+            music.play();
+            play.classList.replace("fa-play", "fa-pause");
+            img.classList.add("anime");
+        };
+
+        const pauseMusic = () => {
+            isplaying = false;
+            music.pause();
+            play.classList.replace("fa-pause", "fa-play");
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click', () => {
+            // if (isplaying) {
+            //     pauseMusic();
+            // } else {
+            //     playMusic();
+            // }
+            isplaying ? pauseMusic() : playMusic();
+        }); 
+
+        const loadsong = (songs) => {
+            title.textContent = songs.title;
+            artist.textContent =songs.artist;
+            music.src = "music/" + songs.name + ".mp3";
+            img.src = `images/${songs.name}.jpg`;
+            
+        };
+
+        songIndex = 0;
+        // loadsong(songs[1]);
+        const nextsong = () => {
+            songIndex = (songIndex + 1) % songs.length;
+            loadsong(songs[songIndex]);
+            playMusic();
+        };
+
+        const prevsong = () => {
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            loadsong(songs[songIndex]);
+            playMusic();
+        };
+
+        next.addEventListener("click", nextsong);
+        prev.addEventListener("click", prevsong);
+    </script>
+</body>
+
+</html>
